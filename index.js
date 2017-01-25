@@ -17,23 +17,29 @@ if (Platform.OS === 'ios') {
 }
 
 var applicationKey = null;
+var smsSent = false;
 
 module.exports = {
-	
-	init: function(appKey) {
-		applicationKey = appKey;
-	},
-	
-	sms: function(phoneNumber, custom, callback) {
-		invariant(applicationKey, 'Call init() to setup the Sinch application key.');
-		SinchVerification.sms(applicationKey, phoneNumber, custom, callback);
-	},
-	
-	flashCall: function(phoneNumber, custom, callback) {
-		invariant(applicationKey, 'Call init() to setup the Sinch application key.');
-		SinchVerification.flashCall(applicationKey, phoneNumber, custom, callback);
-	},
-	
-	verify: SinchVerification.verify,
-	
+
+    init: function(appKey) {
+        applicationKey = appKey;
+    },
+
+    sms: function(phoneNumber, custom, callback) {
+        invariant(applicationKey, 'Call init() to setup the Sinch application key.');
+        SinchVerification.sms(applicationKey, phoneNumber, custom, callback);
+        smsSent = true;
+    },
+
+    flashCall: function(phoneNumber, custom, callback) {
+        invariant(applicationKey, 'Call init() to setup the Sinch application key.');
+        SinchVerification.flashCall(applicationKey, phoneNumber, custom, callback);
+    },
+
+    isSmsSent: function() {
+        return smsSent;
+    },
+
+    verify: SinchVerification.verify
+
 }
